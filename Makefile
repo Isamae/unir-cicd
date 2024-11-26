@@ -24,24 +24,24 @@ test-api:
 	sudo docker network rm calc-test-api || true
 
 test-e2e:
-	docker network create calc-test-e2e || true
-	docker stop apiserver || true
-	docker rm --force apiserver || true
-	docker stop calc-web || true
-	docker rm --force calc-web || true
-	docker stop e2e-tests || true
-	docker rm --force e2e-tests || true
-	docker run -d --network calc-test-e2e --env PYTHONPATH=/opt/calc --name apiserver --env FLASK_APP=app/api.py -p 5000:5000 -w /opt/calc calculator-app:latest flask run --host=0.0.0.0
-	docker run -d --network calc-test-e2e --name calc-web -p 80:80 calc-web
-	docker create --network calc-test-e2e --name e2e-tests cypress/included:4.9.0 --browser chrome || true
-	docker cp ./test/e2e/cypress.json e2e-tests:/cypress.json
-	docker cp ./test/e2e/cypress e2e-tests:/cypress
-	docker start -a e2e-tests || true
-	docker cp e2e-tests:/results ./  || true
-	docker rm --force apiserver  || true
-	docker rm --force calc-web || true
-	docker rm --force e2e-tests || true
-	docker network rm calc-test-e2e || true
+	sudo docker network create calc-test-e2e || true
+	sudo docker stop apiserver || true
+	sudo docker rm --force apiserver || true
+	sudo docker stop calc-web || true
+	sudo docker rm --force calc-web || true
+	sudo docker stop e2e-tests || true
+	sudo docker rm --force e2e-tests || true
+	sudo docker run -d --network calc-test-e2e --env PYTHONPATH=/opt/calc --name apiserver --env FLASK_APP=app/api.py -p 5000:5000 -w /opt/calc calculator-app:latest flask run --host=0.0.0.0
+	sudo docker run -d --network calc-test-e2e --name calc-web -p 80:80 calc-web
+	sudo docker create --network calc-test-e2e --name e2e-tests cypress/included:4.9.0 --browser chrome || true
+	sudo docker cp ./test/e2e/cypress.json e2e-tests:/cypress.json
+	sudo docker cp ./test/e2e/cypress e2e-tests:/cypress
+	sudo docker start -a e2e-tests || true
+	sudo docker cp e2e-tests:/results ./  || true
+	sudo docker rm --force apiserver  || true
+	sudo docker rm --force calc-web || true
+	sudo docker rm --force e2e-tests || true
+	sudo docker network rm calc-test-e2e || true
 
 run-web:
 	sudo docker run --rm --volume `pwd`/web:/usr/share/nginx/html  --volume `pwd`/web/constants.local.js:/usr/share/nginx/html/constants.js --name calc-web -p 80:80 nginx
